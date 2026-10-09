@@ -50,7 +50,13 @@ Thumbs.db
 # Docker local overrides
 docker-compose.override.yml
 docker-compose.local.yml
+.dockerignore
 
 # Misc
 *.pid
 *.seed
+
+
+# Custom 
+todo.md
+resume.txt

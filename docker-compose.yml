@@ -2,8 +2,9 @@ version: '3.8'
 
 services: 
   mongo: 
-    container_name: tsc_mongoose_users_service
+    container_name: tsc_mongoose_users_db
     image: mongo:6.0.27-jammy
+    restart: unless-stopped
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
@@ -13,9 +14,53 @@ services:
       - tsc_mongoose_users_service_data:/data/db
       - tsc_mongoose_users_service_config:/data/configdb
 
+    networks:
+      - users_service_network
+
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api:
+    # image: tsc-mongoose-users-service-api:latest # if you want to use a pre-built image from Docker Hub or a private registry
+    build: .  # if you want to build the image from the Dockerfile in the current directory
+    container_name: tsc_mongoose_users_service_api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "4000:4000"
+
+    networks:
+      - users_service_network
+    
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:4000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
 volumes:
   tsc_mongoose_users_service_data:
     external: true
   tsc_mongoose_users_service_config:
     external: true
   
+
+networks:
+  users_service_network:
+    driver: bridge

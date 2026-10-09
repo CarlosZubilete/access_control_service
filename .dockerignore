@@ -1,80 +1,63 @@
 # ============================================================================
-
 # DOCKER BUILD CONTEXT EXCLUSIONS
-
-# These patterns prevent unnecessary files from being copied into the Docker
-
-# build context, reducing build context size and improving build performance.
-
 # ============================================================================
 
-# Documentation and development guides (not needed in production)
-
-doc/
-README.md
-\*.md
-
-# Node.js and package management
-
+# Dependencies & Build Outputs
 node_modules/
 dist/
-pnpm-store/
-.pnpm-debug.log
+.pnpm-debug.log*
 
-# Environment and secrets (must be injected at runtime, never baked into image)
+# Documentation, Diagrams, and Local Notes (Not needed in production container)
+documents/
+assets/
+plantuml/
+README.md
+todo.md
+*.md
 
+# Utilities, Postman collections, and development scripts
+utils/
+
+# Environment configurations (Secrets must be injected at runtime)
 .env
 .env.local
-.env.\*.local
+.env.*
 
 # Version control and metadata
-
 .git/
 .gitignore
 .gitattributes
 
-# IDE and editor configurations (development-only files)
-
+# IDE and Editor configurations
 .vscode/
 .idea/
-_.swp
-_.swo
-\*~
+*.swp
+*.swo
+*~
 .DS_Store
-.env.example
 
-# Testing and temporary files
-
-.mocharc.json
+# Testing and Quality Tools
+coverage/
+*.log
+jest.config.js
 .eslintrc*
 .prettierrc*
-jest.config.js
-coverage/
-\*.log
+.mocharc.json
 
-# CI/CD and deployment configurations (not needed in runtime image)
-
+# CI/CD pipelines
 .github/
 .gitlab-ci.yml
 .circleci/
 
-# HTTP test files (API testing, not needed in production)
+# HTTP client files (REST client / Bruno / Postman test files)
+*.http
+*.rest
 
-_.http
-_.rest
-
-# Database persistence and temporary data
-
-mongo-data/
-mongodb/
-
-# Docker and build artifacts
-
+# Docker and Compose configuration files (not needed inside the image)
 Dockerfile
-.dockerignore
 docker-compose.yml
 
-# npm/yarn lock files (we use pnpm-lock.yaml only)
 
+# Alternative package manager lock files (since you use pnpm)
 package-lock.json
 yarn.lock

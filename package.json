@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/app.ts"
+    "dev": "ts-node-dev --respawn --transpile-only -r tsconfig-paths/register src/app.ts",
+    "build": "tsc",
+    "start": "node ./dist/app.js"
   },
   "keywords": [],
   "author": "Open Source Community",
@@ -30,5 +32,20 @@
     "ts-node-dev": "2.0.0",
     "tsconfig-paths": "4.2.0",
     "typescript": "5.9.3"
+  },
+  "_moduleAliases": {
+    "@errors": "dist/modules/errors",
+    "@controllers": "dist/modules/controllers",
+    "@services": "dist/modules/services",
+    "@repositories": "dist/modules/repositories",
+    "@models": "dist/modules/models",
+    "@schemas": "dist/modules/schemas",
+    "@routes": "dist/modules/routes",
+    "@utils": "dist/modules/utils",
+    "@mappers": "dist/modules/mappers",
+    "@middlewares": "dist/modules/middlewares",
+    "@collections": "dist/modules/collections",
+    "@sources": "dist/sources",
+    "@config": "dist/config"
   }
 }
