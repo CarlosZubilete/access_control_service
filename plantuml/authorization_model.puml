@@ -1,0 +1,105 @@
+@startuml
+
+!theme plain
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam packageStyle rectangle
+skinparam linetype ortho
+
+title Authorization Model
+
+skinparam class {
+    BackgroundColor<<Root>> #DCFCE7
+    BorderColor<<Root>> #15803D
+    BackgroundColor<<Admin>> #DBEAFE
+    BorderColor<<Admin>> #2563EB
+    BackgroundColor<<User>> #FEF3C7
+    BorderColor<<User>> #D97706
+    BackgroundColor<<Guest>> #F1F5F9
+    BorderColor<<Guest>> #64748B
+}
+
+package "Roles" {
+    class ROOT <<Root>> {
+        Level: 100
+        --
+        Full platform access
+        Manage users, roles and posts
+        root_access
+    }
+
+    class ADMIN <<Admin>> {
+        Level: 80
+        --
+        Manage users and roles
+        Manage all posts
+        Read, create, update and delete
+    }
+
+    class MANAGER <<Admin>> {
+        Level: 60
+        --
+        Manage users and posts
+        Read role definitions
+        No role management
+    }
+
+    class USER <<User>> {
+        Level: 40
+        --
+        Update own profile
+        Manage own posts
+        Read available posts
+    }
+
+    class GUEST <<Guest>> {
+        Level: 20
+        --
+        Read posts
+        Limited access
+    }
+
+    ROOT --> ADMIN : supervises
+    ADMIN --> MANAGER : supervises
+    MANAGER --> USER : supervises
+    USER --> GUEST : lower access
+
+}
+
+package "Security Middleware" {
+    class VerifyToken {
+        Authenticate user
+    }
+
+    class VerifyPermissions {
+        Check required permission
+    }
+
+    class AssignRoles {
+        Validate role assignment
+    }
+
+    class ServiceChecks {
+        Check ownership
+        Validate role levels
+    }
+
+    VerifyToken --> VerifyPermissions
+    VerifyPermissions --> ServiceChecks
+    AssignRoles --> ServiceChecks
+}
+
+
+
+note bottom of ServiceChecks
+    Authorization rules:
+    - Higher level means greater authority
+    - Role assignment requires a strictly lower level
+    - Users can update or delete only their own posts
+    - Users cannot delete their own accounts
+    - Public registration assigns GUEST
+end note
+
+footer github.com/CarlosZubilete | Created: October 2026 
+
+@enduml

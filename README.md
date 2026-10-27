@@ -1,14 +1,10 @@
-
-**Created by:** Carlos Zubilete 
-
----
-# Users Service API
+# Access Control and User Management Service
 
 ### A clean, layered REST API built with TypeScript, Node.js, Express, MongoDB, and Mongoose
 
 ## Project Overview
 
-Users Service is a backend REST API for managing users, authentication, roles, permissions, and posts. The application follows a layered architecture that separates HTTP concerns, business rules, and database access. This structure keeps the code easier to understand, test, maintain, and extend as the application grows.
+Access Control and User Management Service is a backend REST API for managing users, authentication, roles, permissions, and posts. It applies secure software design principles by separating HTTP concerns, business rules, security checks, and database access. This structure helps protect application resources while keeping the code easier to understand, test, maintain, and extend as the application grows.
 
 The API is available locally at:
 
@@ -27,38 +23,6 @@ http://localhost:4000/users-service/v1
 - **Safe responses:** Mappers help prevent internal or sensitive database fields from being returned to API clients.
 - **Type safety:** TypeScript strict mode is enabled to catch many errors during development and make contracts between layers clearer.
 
-### Request Flow
-
-```text
-HTTP Request
-    |
-    v
-Route
-    |
-    v
-Middleware
-    |
-    v
-Controller
-    |
-    v
-Service
-    |
-    v
-Repository
-    |
-    v
-Mongoose Model
-    |
-    v
-MongoDB
-    |
-    v
-Mapper
-    |
-    v
-HTTP Response
-```
 
 ## Main API Capabilities
 
@@ -75,20 +39,20 @@ See the complete endpoint reference in [`documents/api_endpoints.md`](documents/
 
 ### Project Technologies
 
-| Area | Technology |
-| --- | --- |
-| Language | TypeScript |
-| Runtime | Node.js |
-| Web framework | Express.js |
-| Database | MongoDB |
-| Object data modeling | Mongoose |
-| Validation | Zod |
-| Authentication | JSON Web Tokens |
-| Password security | bcrypt |
-| Logging | Morgan |
-| Package manager | pnpm |
-| Containers | Docker and Docker Compose |
-| Operating system experience | Linux |
+| Area                        | Technology                |
+| --------------------------- | ------------------------- |
+| Language                    | TypeScript                |
+| Runtime                     | Node.js                   |
+| Web framework               | Express.js                |
+| Database                    | MongoDB                   |
+| Object data modeling        | Mongoose                  |
+| Validation                  | Zod                       |
+| Authentication              | JSON Web Tokens           |
+| Password security           | bcrypt                    |
+| Logging                     | Morgan                    |
+| Package manager             | pnpm                      |
+| Containers                  | Docker and Docker Compose |
+| Operating system experience | Linux                     |
 
 ### Broader Backend Experience
 
@@ -146,6 +110,10 @@ The repository includes PlantUML source files in [`plantuml/`](plantuml/) and re
 
 ![Normal request flow](assets/normal_request_flow.png)
 
+### Authentication and Authorization Flow
+
+The [authentication and authorization flow](documents/authorization_flow.md) explains how the service verifies users, checks permissions, applies role levels, and protects user-owned resources. It includes a simple [authorization model diagram](assets/authorization_model.png) for readers who want a visual overview.
+
 ### Additional References
 
 - [Technical architecture](documents/technical_architecture.md)
@@ -153,6 +121,7 @@ The repository includes PlantUML source files in [`plantuml/`](plantuml/) and re
 - [Normal request flow](documents/normal_request_flow.md)
 - [Global error handling flow](documents/global_error_handling_flow.md)
 - [Security middleware flow](documents/security_middlewares_flow.md)
+- [Authentication and authorization flow](documents/authorization_flow.md)
 
 ## Getting Started
 
